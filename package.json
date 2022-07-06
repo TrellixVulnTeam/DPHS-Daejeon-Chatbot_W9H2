@@ -1,0 +1,25 @@
+{
+  "name": "dphs-daejeon",
+  "version": "1.0.1",
+  "description": "code for dphs-daejeon instagram",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "dphs",
+    "chatbot",
+    "instagram"
+  ],
+  "author": "damie",
+  "license": "MIT",
+  "dependencies": {
+    "@androz2091/insta.js": "^1.6.1",
+    "canvas": "^2.9.3",
+    "dotenv": "^16.0.1",
+    "fs": "^0.0.1-security",
+    "instagram-private-api": "^1.45.3",
+    "instagram-web-api": "^2.2.2",
+    "path": "^0.12.7"
+  }
+}
