@@ -106,7 +106,7 @@ function drawImage(text){
     ctx.textBaseline = 'middle';
     ctx.fillStyle = '#282828';
     if (text.length <= 5){
-        ctx.fillText(text , 732, 756);
+        ctx.fillText(text , 732, 755);
     } else if (text.length <= 10){
         ctx.fillText(text , 732, 740);
     } else if (text.length <= 20){
@@ -152,7 +152,7 @@ client.on('messageCreate', (message) => {
     if(message.content.startsWith(prefix + '익명')){
         if (message.content.substring(4).length <= 80){
             try {
-                await drawImage(message.content.substring(0, numberOfMessage-5));
+                drawImage(message.content.substring(0, numberOfMessage-5));
                 message.chat.sendMessage(`업로드를 하고 있어요!\n잠시 후에 업로드가 완료될 거에요..`);
             }catch(err){
                 console.error(err);
@@ -175,7 +175,7 @@ client.on('messageCreate', (message) => {
         let numberOfMessage = message.content.length;
         if (message.content.substring(0, numberOfMessage-5).length <= 80){
             try {
-                await drawImage(message.content.substring(0, numberOfMessage-5));
+                drawImage(message.content.substring(0, numberOfMessage-5));
                 message.chat.sendMessage(`업로드를 하고 있어요!\n잠시 후에 업로드가 완료될 거에요..`);
             }catch(err){
                 console.error(err);
