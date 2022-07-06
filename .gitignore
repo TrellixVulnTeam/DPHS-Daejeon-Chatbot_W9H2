@@ -3,3 +3,6 @@
 
 #ignore .bat
 *.bat
+
+#ignore .txt
+*.txt
