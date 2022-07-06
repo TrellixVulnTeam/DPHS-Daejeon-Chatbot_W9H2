@@ -152,7 +152,8 @@ client.on('messageCreate', (message) => {
     if(message.content.startsWith(prefix + '익명')){
         if (message.content.substring(4).length <= 80){
             try {
-                drawImage(message.content.substring(0, numberOfMessage-5));
+                let numberOfMessage = message.content.length;
+                drawImage(message.content.substring(4));
                 message.chat.sendMessage(`업로드를 하고 있어요!\n잠시 후에 업로드가 완료될 거에요..`);
             }catch(err){
                 console.error(err);
@@ -172,9 +173,9 @@ client.on('messageCreate', (message) => {
     };
 
     if (message.content.endsWith(' 익명이요')){
-        let numberOfMessage = message.content.length;
         if (message.content.substring(0, numberOfMessage-5).length <= 80){
             try {
+                let numberOfMessage = message.content.length;
                 drawImage(message.content.substring(0, numberOfMessage-5));
                 message.chat.sendMessage(`업로드를 하고 있어요!\n잠시 후에 업로드가 완료될 거에요..`);
             }catch(err){
