@@ -256,7 +256,7 @@ client.on('messageCreate', (message) => {
                 message.chat.sendMessage(uptime(Math.floor(process.uptime())))
                 consoleWriter(`${message.authorID} called uptime.`)
             } else if (message.content.substring(7).startsWith('follow')) {
-                client.fetchUser(String(message.content.substring(13))).then((user) => {
+                client.fetchUser(String(message.content.substring(14))).then((user) => {
                     user.follow();
                     message.chat.sendMessage(`${user.id} 님을 팔로우하였습니다.`);
                     consoleWriter(`followed ${user.id} by ${message.authorID}.`);
