@@ -39,7 +39,7 @@ async function login() {
 
 
 //Function to upload img with Instagram Private API
-function upload(count) {
+function upload(filePath, count) {
     const postImage = async () => {
         await login();
 
@@ -47,7 +47,7 @@ function upload(count) {
             ig.state.generateDevice(ID);
             await ig.simulate.preLoginFlow();
             const user = await ig.account.login(ID, PW);
-            const path = `./output/worker-${count}.png`;
+            const path = filePath;
             const published = await ig.publish.photo({
                 file: await readFileAsync(String(path)),
                 caption: `${String(count)}번째 포스트!`
@@ -120,7 +120,7 @@ function drawImage(text){
     };
     fs.readFile('./data/daejeonCount.txt', 'utf8', function(err, data) {
         canvas.createJPEGStream().pipe(fs.createWriteStream(path.join(__dirname, `./output/worker-${Number(data) + 1}.png`)));
-        upload(Number(data) + 1);
+        upload(`./output/worker-${Number(data) + 1}.png`, Number(data) + 1);
         fs.writeFile('./data/daejeonCount.txt', String(Number(data) + 1), err => {
             if (err) {
                 console.error(err);
@@ -216,60 +216,55 @@ client.on('messageCreate', (message) => {
         consoleWriter(`${message.authorID} read developer info.`);
     };
 
+    if(message.content === prefix + 'ping'){
+        message.chat.sendMessage('Pong!');
+    };
+
     if(message.content.startsWith('client.')){
         if(admin.includes(String(message.authorID))){
             if(message.content.substring(7) === 'welcomeMsg'){
                 message.chat.sendMessage(message.chat.name + welcomeMsg);
                 consoleWriter(`${message.authorID} request Welcome Message.`)
-            } else if (message.content.substring(7) === 'thisChatId') {
-                message.chat.sendMessage(String(message.chat.id));
-            } else if(message.content.substring(7).startsWith('chatTo')){
-                let msgContent = message.content.split(' ');
-                let usernameCount = msgContent[1].length;
-                try {
-                    client.fetchUser(msgContent[1]).then((user) => {
-                        user.send(message.content.substring(11 + usernameCount));
-                    });
-                    message.chat.sendMessage('메시지를 성공적으로 전송하였습니다.')
-                } catch(err){
-                    message.chat.sendMessage('메시지 전송에 실패하였습니다. 콘솔을 확인해 주세요.')
-                    console.log(err);
-                };
             } else if(message.content.substring(7).startsWith('script')){
                 /*해당 명령어는 위험한 기능이니 관리자 전용으로만 사용해 주세요!*/
                 /*에러가 발생할 시 코드가 정지될 위험이 있습니다. 주의해 주세요! */
                 try {
                     eval(message.content.substring(14));
-                    console.log(message.author + ' used ' + message.content.substring(14))
                     consoleWriter(`${message.authorID} used unknown script.`);
                 } catch (err) {
                     message.chat.sendMessage(String(err));
-                    console.log(message.author + ' used ' + message.content.substring(14) + ', but error occured.')
                     consoleWriter(`${message.authorID} used unknown script, but there was an error.`);
                 };
             } else if(message.content.substring(7).startsWith('findUserID')){
-                client.fetchUser(String(message.content.substring(13))).then((user) => {
+                client.fetchUser(String(message.content.substring(18))).then((user) => {
                     message.chat.sendMessage("해당 유저의 ID입니다.\n" + user.id);
-                    consoleWriter(`${message.authorID} found ID of ${user.id}`);
+                    consoleWriter(`${message.authorID} found ID of ${user.id}.`);
                 });
             } else if (message.content.substring(7).startsWith('block')) {
                 client.fetchUser(String(message.content.substring(13))).then((user) => {
                     user.block();
                     message.chat.sendMessage(`${user.id} 님을 차단하였습니다.`);
-                    consoleWriter(`${message.authorID} blocked ${user.id}`);
+                    consoleWriter(`${message.authorID} blocked ${user.id}.`);
                 });
             }  else if (message.content.substring(7).startsWith('unblock')) {
                 client.fetchUser(String(message.content.substring(15))).then((user) => {
                     user.unblock();
                     message.chat.sendMessage(`${user.id} 님의 차단을 해제하였습니다.`);
-                    consoleWriter(`${message.authorID} unblocked ${user.id}`)
+                    consoleWriter(`${message.authorID} unblocked ${user.id}.`)
                 });
             } else if (message.content.substring(7) === 'uptime'){
                 message.chat.sendMessage(uptime(Math.floor(process.uptime())))
                 consoleWriter(`${message.authorID} called uptime.`)
+            } else if (message.content.substring(7).startsWith('follow')) {
+                client.fetchUser(String(message.content.substring(13))).then((user) => {
+                    user.follow();
+                    message.chat.sendMessage(`${user.id} 님을 팔로우하였습니다.`);
+                    consoleWriter(`followed ${user.id} by ${message.authorID}.`);
+                });
             } else {
                 message.chat.sendMessage('잘못된 명령어를 입력하신 것 같아요!');
-            }
+                consoleWriter(`${message.authorID} tryed to use admin commands.`)
+            };
         } else {
             message.chat.sendMessage('해당 명령어는 관리자만 이용할 수 있는 기능이에요 o(TヘTo)');
             consoleWriter(`${message.authorID} tried to use admin command but failed.`)
