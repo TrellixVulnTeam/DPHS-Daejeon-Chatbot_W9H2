@@ -61,7 +61,7 @@ function upload(filePath, count) {
 }
 
 //set Welcome Message
-const welcomeMsg = "님 환영해요!\nwww.google.com 로 들어가\n이용 방법을 확인해 주세요!";
+const welcomeMsg = "님 환영해요! http://daejeon.damie.kr/commands/user-commands 로 들어가 이용 방법을 확인해 주세요!";
 
 
 //Function to write log
@@ -209,15 +209,11 @@ client.on('messageCreate', (message) => {
         });
         message.chat.sendMessage('건의 사항을 성공적으로 전송하였어요! 하나하나 확인 후 검토해 볼게요!');
         consoleWriter(`${message.authorID} uploaded new suggestions.`);
-    }
+    };
     
     if(message.content === prefix + 'dev'){
         message.chat.sendMessage('http://damie.kr\n위 사이트에서 개발자 정보를 확인하세요!');
         consoleWriter(`${message.authorID} read developer info.`);
-    };
-
-    if(message.content === prefix + 'ping'){
-        message.chat.sendMessage('Pong!');
     };
 
     if(message.content.startsWith('client.')){
