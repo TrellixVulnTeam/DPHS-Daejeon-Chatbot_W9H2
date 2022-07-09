@@ -210,6 +210,8 @@ client.on('messageCreate', (message) => {
         message.chat.sendMessage('건의 사항을 성공적으로 전송하였어요! 하나하나 확인 후 검토해 볼게요!');
         consoleWriter(`${message.authorID} uploaded new suggestions.`);
     };
+
+    
     
     if(message.content === prefix + 'dev'){
         message.chat.sendMessage('http://damie.kr\n위 사이트에서 개발자 정보를 확인하세요!');
@@ -220,7 +222,9 @@ client.on('messageCreate', (message) => {
         if(admin.includes(String(message.authorID))){
             if(message.content.substring(7) === 'welcomeMsg'){
                 message.chat.sendMessage(message.chat.name + welcomeMsg);
-                consoleWriter(`${message.authorID} request Welcome Message.`)
+                chat.sendMessage(chat.name + welcomeMsg);
+                chat.sendMessage('http://daejeon.damie.kr\n에서 자세한 정보를 확인해 보세요 :)');
+                consoleWriter(`${message.authorID} request Welcome Message.`);
             } else if(message.content.substring(7).startsWith('script')){
                 /*해당 명령어는 위험한 기능이니 관리자 전용으로만 사용해 주세요!*/
                 /*에러가 발생할 시 코드가 정지될 위험이 있습니다. 주의해 주세요! */
@@ -272,6 +276,7 @@ client.on('messageCreate', (message) => {
 client.on('pendingRequest', (chat) => {
     chat.approve;
     chat.sendMessage(chat.name + welcomeMsg);
+    chat.sendMessage('http://daejeon.damie.kr\n에서 자세한 정보를 확인해 보세요 :)')
     consoleWriter(`Chat-${chat.id} started.`)
 });
 
