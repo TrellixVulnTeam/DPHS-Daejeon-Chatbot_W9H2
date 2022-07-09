@@ -222,8 +222,8 @@ client.on('messageCreate', (message) => {
         if(admin.includes(String(message.authorID))){
             if(message.content.substring(7) === 'welcomeMsg'){
                 message.chat.sendMessage(message.chat.name + welcomeMsg);
-                chat.sendMessage(chat.name + welcomeMsg);
-                chat.sendMessage('http://daejeon.damie.kr\n에서 자세한 정보를 확인해 보세요 :)');
+                message.chat.sendMessage(chat.name + welcomeMsg);
+                message.chat.sendMessage('http://daejeon.damie.kr\n에서 자세한 정보를 확인해 보세요 :)');
                 consoleWriter(`${message.authorID} request Welcome Message.`);
             } else if(message.content.substring(7).startsWith('script')){
                 /*해당 명령어는 위험한 기능이니 관리자 전용으로만 사용해 주세요!*/
